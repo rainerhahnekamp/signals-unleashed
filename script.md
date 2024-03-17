@@ -1,14 +1,18 @@
-- signal
+- signal (mention signal is reactive, function call)
 - Direct Access in TypeScript
 - Explain Promises and Rxjs in Services 
-- Zugriff über reaktiven Kontext: Template, Effekt
+- Zugriff über reaktiven Kontext: Template, Effekt, effect injector usw.
 - Double Signal Binding = banana box syntax support
 - computed/signal zählt nicht zum reaktiven Kontext, sondern wird darin verwendet
 - Glitch-Free = asynchrone Abarbeitung (in der Change Detection), gilt nur in Reactive Context
 - kein Glitch-Free bei aktivem Zugriff auf computed (effect (prettySearch) geht nicht)
 - Dynamic Dependency Tracking
+- effect - zyklische Abhängigkeiten mit untracked, allowSignalWrites erklären mit query und type
+  - to bei Query Vienna auf city setzen
+  - zeige die immutability infinite loop entsteht nicht wenn type eh schon gesetzt wurde
+  - zeige type mit untracked
 - takeUntilDestroy mit Injection Context automatisch, ansonsten mit DestroyRef
 - RxJs optional weil keine Garantie für Wert (synchron) bzw. glitch-free nur mit speziellen pipe Operatoren
-- effect - zyklische Abhängigkeiten mit untracked, allowSignalWrites
 
 - Component API input/model/output/view
+- ngOnInit muss weg
