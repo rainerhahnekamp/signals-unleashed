@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,6 +24,7 @@ import { Holiday } from '@app/holidays/model';
 })
 export class HolidayCardComponent {
   holiday = input.required<Holiday & { isFavourite: boolean }>();
-  @Output() addFavourite = new EventEmitter<number>();
-  @Output() removeFavourite = new EventEmitter<number>();
+  selected = model(0);
+  addFavourite = output<number>();
+  removeFavourite = output<number>();
 }

@@ -1,4 +1,7 @@
-<div class="flex flex-wrap justify-evenly">
+<div
+  class="flex flex-wrap justify-evenly"
+  [ngClass]="[selected() === holiday().id ? 'bg-red-400' : '']"
+>
   <mat-card
     data-testid="holiday-card"
     [ngClass]="{ 'sold-out': holiday().soldOut }"
@@ -51,7 +54,10 @@
           </mat-icon>
         </button>
       }
-      <mat-icon data-testid="btn-basket" class="cursor-pointer"
+      <mat-icon
+        data-testid="btn-basket"
+        class="cursor-pointer"
+        (click)="selected.set(holiday().id)"
         >shopping_cart</mat-icon
       >
       <a
