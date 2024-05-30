@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import Keycloak from 'keycloak-js';
 
 export interface UserProfile {
@@ -14,6 +14,8 @@ export class KeycloakService {
   _keycloak: Keycloak | undefined;
   profile: UserProfile | undefined;
 
+  constructor(private ngZone: NgZone) { }
+
   get keycloak() {
     if (!this._keycloak) {
       this._keycloak = new Keycloak({
@@ -26,20 +28,25 @@ export class KeycloakService {
   }
 
   async init() {
-    const authenticated = await this.keycloak.init({
-      onLoad: 'check-sso',
-      silentCheckSsoRedirectUri:
-        window.location.origin + '/assets/silent-check-sso.html',
+    return this.ngZone.runOutsideAngular(async () => {
+      const authenticated = await this.keycloak.init({
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html',
+      });
+
+      if (!authenticated) {
+        return authenticated;
+      }
+
+      const userInfo = await this.keycloak.loadUserInfo();
+      this.ngZone.run(() => {
+        this.profile = userInfo as unknown as UserProfile;
+        this.profile.token = this.keycloak.token || '';
+      });
+
+      return true;
     });
-
-    if (!authenticated) {
-      return authenticated;
-    }
-    this.profile =
-      (await this.keycloak.loadUserInfo()) as unknown as UserProfile;
-    this.profile.token = this.keycloak.token || '';
-
-    return true;
   }
 
   login() {
