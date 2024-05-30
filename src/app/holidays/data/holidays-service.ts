@@ -31,17 +31,18 @@ export class HolidaysService {
   }
 
   addFavourite(id: number): void {
-    this.holidays = this.holidays.map((holiday) =>
-      holiday.id === id
-        ? { ...holiday, isFavourite: true }
-        : { ...holiday, isFavourite: false },
-    );
+    this.setFavorite(id, true);
   }
 
   removeFavourite(id: number): void {
-    this.holidays = this.holidays.map((holiday) => ({
-      ...holiday,
-      isFavourite: false,
-    }));
+    this.setFavorite(id, false);
+  }
+
+  private setFavorite(id: number, isFavourite: boolean) {
+    this.holidays = this.holidays.map((holiday) =>
+      holiday.id === id
+        ? { ...holiday, isFavourite: isFavourite }
+        : holiday,
+    );
   }
 }
