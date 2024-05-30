@@ -11,8 +11,8 @@
   >
     <mat-card-header>
       <mat-card-title [id]="'holiday-card-' + holiday().id">
-        {{ holiday().title }}</mat-card-title
-      >
+        {{ holiday().title }}
+      </mat-card-title>
       <mat-card-subtitle>{{ holiday().teaser }}</mat-card-subtitle>
     </mat-card-header>
 
@@ -35,37 +35,41 @@
       {{ holiday().description }}
     </mat-card-content>
     <mat-card-actions class="flex justify-around items-center">
-      @if (holiday().isFavourite) {
-        <button mat-icon-button data-testid="btn-remove-favourite">
-          <mat-icon (click)="removeFavourite.emit(holiday().id)"
-            >favorite
-          </mat-icon>
-        </button>
-      }
       @if (holiday().hasQuiz) {
-        <a [routerLink]="['./quiz', holiday().id]" mat-icon-button
-          ><mat-icon>quiz</mat-icon></a
-        >
+        <a [routerLink]="['./quiz', holiday().id]" mat-icon-button>
+          <mat-icon>quiz</mat-icon>
+        </a>
       }
-      @if (!holiday().isFavourite) {
-        <button mat-icon-button data-testid="btn-add-favourite">
-          <mat-icon (click)="addFavourite.emit(holiday().id)"
-            >favorite_outlined
-          </mat-icon>
+      @if (holiday().isFavourite) {
+        <button
+          (click)="removeFavourite.emit(holiday().id)"
+          mat-icon-button
+          data-testid="btn-remove-favourite"
+        >
+          <mat-icon>favorite</mat-icon>
+        </button>
+      } @else {
+        <button
+          (click)="addFavourite.emit(holiday().id)"
+          mat-icon-button
+          data-testid="btn-add-favourite"
+        >
+          <mat-icon>favorite_outlined</mat-icon>
         </button>
       }
       <mat-icon
         data-testid="btn-basket"
         class="cursor-pointer"
         (click)="selected.set(holiday().id)"
-        >shopping_cart</mat-icon
-      >
+        >shopping_cart
+      </mat-icon>
       <a
         [routerLink]="['./request-info', holiday().id]"
         data-testid="btn-brochure"
         mat-icon-button
-        ><mat-icon>info</mat-icon></a
       >
+        <mat-icon>info</mat-icon>
+      </a>
     </mat-card-actions>
   </mat-card>
 </div>

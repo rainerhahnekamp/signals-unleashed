@@ -151,11 +151,21 @@ export class HolidaysComponent {
 
   addFavourite(id: number) {
     this.holidaysService.addFavourite(id);
-    this.search();
+    this.setFavouriteLocally(id, true);
   }
 
   removeFavourite(id: number) {
     this.holidaysService.removeFavourite(id);
-    this.search();
+    this.setFavouriteLocally(id, false);
+  }
+
+  private setFavouriteLocally(id: number, isFavourite: boolean) {
+    this.holidays.update((holidays) =>
+      holidays.map((holiday) =>
+        holiday.id === id
+          ? { ...holiday, isFavourite: isFavourite }
+          : holiday,
+      ),
+    );
   }
 }
